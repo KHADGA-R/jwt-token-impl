@@ -1,7 +1,10 @@
 package com.example.jwt.controller;
 
 import com.example.jwt.entity.Role;
+import com.example.jwt.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,8 +17,12 @@ public class RoleController {
     // and interact with the RoleService to perform the necessary operations
     // on the Role entity.
 
+    @Autowired
+    private RoleService roleService;
+
     @PostMapping({"/createRole"})
-    public Role createRole(Role role) {
+    public Role createRole(@RequestBody Role role) {
+        return roleService.createRole(role);
 
     }
 }
