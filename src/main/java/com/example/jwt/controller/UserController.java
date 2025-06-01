@@ -2,7 +2,7 @@ package com.example.jwt.controller;
 
 import com.example.jwt.entity.User;
 import com.example.jwt.service.UserService;
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
