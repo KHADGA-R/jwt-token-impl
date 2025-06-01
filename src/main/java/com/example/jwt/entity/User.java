@@ -1,6 +1,6 @@
 package com.example.jwt.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.Set;
 
