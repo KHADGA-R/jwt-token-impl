@@ -1,6 +1,7 @@
 package com.example.jwt.controller;
 
 import com.example.jwt.entity.JwtRequest;
+import com.example.jwt.entity.JwtResponse;
 import com.example.jwt.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +18,8 @@ public class JwtController {
 
 
     @PostMapping({"/authenticate"})
-    public void createJwtToken(@RequestBody JwtRequest jwtRequest) {
-
+    public JwtResponse createJwtToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+        return createJwtToken(jwtRequest);
     }
+
 }

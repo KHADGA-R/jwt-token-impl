@@ -6,6 +6,7 @@ import com.example.jwt.entity.JwtResponse;
 import com.example.jwt.entity.User;
 import com.example.jwt.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -14,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -28,8 +30,14 @@ public class JwtService implements UserDetailsService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Lazy
     @Autowired
     private AuthenticationManager authenticationManager;
+
+
+    @Autowired
+    @Lazy
+    private PasswordEncoder passwordEncoder;
 
 
     public JwtResponse createJwtToken(JwtRequest jwtRequest) throws  Exception{
@@ -38,6 +46,12 @@ public class JwtService implements UserDetailsService {
         authenticate(userName, userPassword);
 
         final UserDetails userDetails = loadUserByUsername(userName);
+
+        String newGeneratedToken = jwtUtil.generateToken(userDetails);
+
+        User user = userDao.findById(userName).get();
+
+        return new JwtResponse(user, newGeneratedToken);
     }
 
     @Override
@@ -61,6 +75,7 @@ public class JwtService implements UserDetailsService {
         user.getRole().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
         });
+        return authorities;
     }
 
     private void authenticate(String userName, String userPassword) throws Exception {

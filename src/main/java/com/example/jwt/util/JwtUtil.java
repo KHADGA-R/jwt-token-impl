@@ -16,6 +16,8 @@ public class JwtUtil {
 
     private static final String SECRET_KEY = "secrete123";
 
+    private static final int TOKEN_VALIDITY = 3600;
+
     public String getUserNameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
